@@ -1,0 +1,39 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "hookdesk"
+version = "0.1.0"
+description = "hookdesk"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = ["fastapi>=0.110", "uvicorn[standard]", "pydantic-settings>=2", "httpx>=0.27"]
+
+[project.scripts]
+hookdesk-send = "hookdesk.cli:main"
+
+[dependency-groups]
+dev = ["pytest>=8", "pytest-cov", "pytest-asyncio", "ruff", "mypy"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/hookdesk"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "C4", "PT", "RUF", "S", "ASYNC", "PERF"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+
+[tool.pytest.ini_options]
+addopts = "-ra --strict-markers"
+asyncio_mode = "auto"
+testpaths = ["tests"]
